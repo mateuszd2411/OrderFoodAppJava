@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "929744278265",
+    "firebase_url": "https://orderfoodappjava.firebaseio.com",
+    "project_id": "orderfoodappjava",
+    "storage_bucket": "orderfoodappjava.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:929744278265:android:d1e4505d726f8988d70828",
+        "android_client_info": {
+          "package_name": "com.ganarstudio.orderfoodappjava"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "929744278265-589etd1bhmfkn5rilqn4g0fjtn1amjdp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ganarstudio.orderfoodappjava",
+            "certificate_hash": "48d641951ba84155b9bd6867749e04dcedea1390"
+          }
+        },
+        {
+          "client_id": "929744278265-ocl0bbtqkhhgg1qu6naer83r11ear5jn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-3VoLxcj3loUKg1bc31qmEOB08htxLwo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "929744278265-ocl0bbtqkhhgg1qu6naer83r11ear5jn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
