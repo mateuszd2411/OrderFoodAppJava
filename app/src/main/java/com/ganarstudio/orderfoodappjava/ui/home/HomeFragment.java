@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.asksira.loopingviewpager.LoopingViewPager;
+import com.ganarstudio.orderfoodappjava.Adapter.MyBestDealsAdapter;
 import com.ganarstudio.orderfoodappjava.Adapter.MyPopularCategoriesAdapter;
 import com.ganarstudio.orderfoodappjava.R;
 
@@ -25,6 +27,8 @@ public class HomeFragment extends Fragment {
 
     @BindView(R.id.recycler_popular)
     RecyclerView recycler_popular;
+    @BindView(R.id.viewpager)
+    LoopingViewPager viewPager;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
@@ -34,12 +38,17 @@ public class HomeFragment extends Fragment {
         unbinder = ButterKnife.bind(this, root);
         init();
 
-        homeViewModel.getPopularList().observe(this, popularCategoryModels ->{
+        homeViewModel.getPopularList().observe(getViewLifecycleOwner(), popularCategoryModels ->{
 
             //create adapter
             MyPopularCategoriesAdapter adapter = new MyPopularCategoriesAdapter(getContext(), popularCategoryModels);
             recycler_popular.setAdapter(adapter);
 
+        });
+
+        homeViewModel.getBestDealList().observe(this, bestDealModels -> {
+            MyBestDealsAdapter adapter = new MyBestDealsAdapter(getContext(), bestDealModels, true);
+            viewPager.setAdapter(adapter);
         });
 
         return root;
@@ -49,5 +58,17 @@ public class HomeFragment extends Fragment {
         //set recycler_view
         recycler_popular.setHasFixedSize(true);
         recycler_popular.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewPager.resumeAutoScroll();
+    }
+
+    @Override
+    public void onPause() {
+        viewPager.pauseAutoScroll();
+        super.onPause();
     }
 }
