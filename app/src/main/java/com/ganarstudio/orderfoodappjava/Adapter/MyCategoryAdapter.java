@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CategoryModel;
 import com.ganarstudio.orderfoodappjava.R;
 
@@ -58,6 +59,18 @@ public class MyCategoryAdapter extends RecyclerView.Adapter<MyCategoryAdapter.My
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (categoryModelList.size() == 1) {
+            return Common.DEFAULT_COLUMN_COUNT;
+        } else {
+            if (categoryModelList.size() % 2 == 0)
+                return Common.DEFAULT_COLUMN_COUNT;
+            else
+                return (position > 1 && position == categoryModelList.size() - 1) ? Common.FULL_WIDTH_COLUMN : Common.DEFAULT_COLUMN_COUNT;
         }
     }
 }
