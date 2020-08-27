@@ -1,4 +1,4 @@
-package com.ganarstudio.orderfoodappjava.ui.gallery;
+package com.ganarstudio.orderfoodappjava.ui.menu;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,15 +12,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import com.ganarstudio.orderfoodappjava.R;
 
-public class GalleryFragment extends Fragment {
+public class MenuFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private MenuViewModel galleryViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+                ViewModelProviders.of(this).get(MenuViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_menu, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
         galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
