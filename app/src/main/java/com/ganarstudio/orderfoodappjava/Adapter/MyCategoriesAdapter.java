@@ -21,12 +21,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MyCategoryAdapter extends RecyclerView.Adapter<MyCategoryAdapter.MyViewHolder> {
+public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapter.MyViewHolder> {
 
     Context context;
     List<CategoryModel> categoryModelList;
 
-    public MyCategoryAdapter(Context context, List<CategoryModel> categoryModelList) {
+    public MyCategoriesAdapter(Context context, List<CategoryModel> categoryModelList) {
         this.context = context;
         this.categoryModelList = categoryModelList;
     }
