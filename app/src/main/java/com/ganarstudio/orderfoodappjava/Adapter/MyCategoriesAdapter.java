@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.ganarstudio.orderfoodappjava.Callback.IRecyclerClickListener;
 import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CategoryModel;
 import com.ganarstudio.orderfoodappjava.R;
@@ -50,15 +51,28 @@ public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapte
         return categoryModelList.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         Unbinder unbinder;
         @BindView(R.id.img_category)
         ImageView category_image;
         @BindView(R.id.txt_category)
         TextView category_name;
+
+        IRecyclerClickListener listener;
+
+        public void setListener(IRecyclerClickListener listener) {
+            this.listener = listener;
+        }
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            listener.onItemClickListener(view,getAdapterPosition());
         }
     }
 
