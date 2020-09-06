@@ -1,5 +1,6 @@
 package com.ganarstudio.orderfoodappjava.Common;
 
+import com.ganarstudio.orderfoodappjava.Model.CategoryModel;
 import com.ganarstudio.orderfoodappjava.Model.UserModel;
 
 public class Common {
@@ -10,4 +11,5 @@ public class Common {
     public static final int FULL_WIDTH_COLUMN = 1;
     public static final String CATEGORY_REF = "Category";
     public static UserModel currentUser;
+    public static CategoryModel categorySelected;
 }

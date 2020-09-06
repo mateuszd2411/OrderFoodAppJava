@@ -13,8 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.ganarstudio.orderfoodappjava.Callback.IRecyclerClickListener;
 import com.ganarstudio.orderfoodappjava.Common.Common;
+import com.ganarstudio.orderfoodappjava.EventBus.CategoryClick;
 import com.ganarstudio.orderfoodappjava.Model.CategoryModel;
 import com.ganarstudio.orderfoodappjava.R;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -44,6 +47,14 @@ public class MyCategoriesAdapter extends RecyclerView.Adapter<MyCategoriesAdapte
         Glide.with(context).load(categoryModelList.get(position).getImage())
                 .into(holder.category_image);
         holder.category_name.setText(new StringBuilder(categoryModelList.get(position).getName()));
+
+        holder.setListener(new IRecyclerClickListener() {
+            @Override
+            public void onItemClickListener(View view, int pos) {
+                Common.categorySelected = categoryModelList.get(pos);
+                EventBus.getDefault().postSticky(new CategoryClick(true, categoryModelList.get(pos)));
+            }
+        });
     }
 
     @Override
