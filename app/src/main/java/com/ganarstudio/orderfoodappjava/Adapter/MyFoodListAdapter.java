@@ -52,7 +52,7 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         private Unbinder unbinder;
-        //init viewa
+        //init views
         @BindView(R.id.txt_food_name)
         TextView txt_food_name;
         @BindView(R.id.txt_food_price)

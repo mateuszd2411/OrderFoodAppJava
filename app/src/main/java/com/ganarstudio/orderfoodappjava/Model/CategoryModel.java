@@ -32,4 +32,8 @@ public class CategoryModel {
     public void setImage(String image) {
         this.image = image;
     }
+
+    public List<FoodModel> getFoods() {
+        return foods;
+    }
 }
