@@ -13,8 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 
+import com.ganarstudio.orderfoodappjava.Adapter.MyFoodListAdapter;
+import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +35,9 @@ public class FoodListFragment extends Fragment {
     @BindView(R.id.recycler_food_list)
     RecyclerView recycler_food_list;
 
+    LayoutAnimationController layoutAnimationController;
+    MyFoodListAdapter adapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -38,18 +47,21 @@ public class FoodListFragment extends Fragment {
         unbinder = ButterKnife.bind(this, root);
         initViews();
 
-        sendViewModel.getText().observe(this, new Observer<String>() {
+        sendViewModel.getMutableLiveDataFoodList().observe(this, new Observer<List<FoodModel>>() {
             @Override
-            public void onChanged(@Nullable String s) {
-
+            public void onChanged(List<FoodModel> foodModels) {
+                adapter = new MyFoodListAdapter(getContext(), foodModels);
+                recycler_food_list.setAdapter(adapter);
+                recycler_food_list.setLayoutAnimation(layoutAnimationController);
             }
         });
-
         return root;
     }
 
     private void initViews() {
         recycler_food_list.setHasFixedSize(true);
         recycler_food_list.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        layoutAnimationController = AnimationUtils.loadLayoutAnimation(getContext(), R.anim.layout_item_from_left);
     }
 }
