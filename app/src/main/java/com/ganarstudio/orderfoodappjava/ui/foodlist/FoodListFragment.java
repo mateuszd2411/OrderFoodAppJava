@@ -3,6 +3,7 @@ package com.ganarstudio.orderfoodappjava.ui.foodlist;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.ganarstudio.orderfoodappjava.Adapter.MyFoodListAdapter;
+import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
 
@@ -59,6 +61,11 @@ public class FoodListFragment extends Fragment {
     }
 
     private void initViews() {
+
+        ((AppCompatActivity)getActivity())
+                .getSupportActionBar()
+                .setTitle(Common.categorySelected.getName());
+
         recycler_food_list.setHasFixedSize(true);
         recycler_food_list.setLayoutManager(new LinearLayoutManager(getContext()));
 
