@@ -107,7 +107,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
     public void onCategorySelected(CategoryClick event) {
         if (event.isSuccess()) {
-            Toast.makeText(this, "click to "+event.getCategoryModel().getName(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "click to "+event.getCategoryModel().getName(), Toast.LENGTH_SHORT).show();
+            navController.navigate(R.id.nav_food_list);
         }
     }
 }

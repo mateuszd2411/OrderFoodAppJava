@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -58,11 +59,11 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
         @BindView(R.id.txt_food_price)
         TextView txt_food_price;
         @BindView(R.id.img_food_image)
-        TextView img_food_image;
+        ImageView img_food_image;
         @BindView(R.id.img_fav)
-        TextView img_fav;
+        ImageView img_fav;
         @BindView(R.id.img_quick_cart)
-        TextView img_cart;
+        ImageView img_cart;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             unbinder = ButterKnife.bind(this, itemView);
