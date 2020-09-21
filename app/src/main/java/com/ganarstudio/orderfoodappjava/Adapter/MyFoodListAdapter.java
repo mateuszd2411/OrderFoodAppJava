@@ -51,11 +51,11 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
         .append(foodModelList.get(position).getName()));
 
         //Event
-        holder.setListener((IRecyclerClickListener) (view, pos) -> {
-            Common.selectedFood = foodModelList.get(pos);
-            EventBus.getDefault().postSticky(new FoodItemClick(true, foodModelList.get(pos)));
-
-        });
+//        holder.setListener((IRecyclerClickListener) (view, pos) -> {
+//            Common.selectedFood = foodModelList.get(pos);
+//            EventBus.getDefault().postSticky(new FoodItemClick(true, foodModelList.get(pos)));
+//
+//        });
     }
 
     @Override
