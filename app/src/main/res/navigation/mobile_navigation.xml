@@ -20,18 +20,18 @@
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="com.ganarstudio.orderfoodappjava.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="@string/nav_food_detail"
+        tools:layout="@layout/fragment_food_detail" />
 
     <fragment
-        android:id="@+id/nav_share"
+        android:id="@+id/nav_food_detail"
         android:name="com.ganarstudio.orderfoodappjava.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="@string/nav_food_detail"
+        tools:layout="@layout/fragment_food_detail" />
 
     <fragment
         android:id="@+id/nav_food_list"
         android:name="com.ganarstudio.orderfoodappjava.ui.foodlist.FoodListFragment"
         android:label="@string/menu_food_list"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_food_detail" />
 </navigation>
