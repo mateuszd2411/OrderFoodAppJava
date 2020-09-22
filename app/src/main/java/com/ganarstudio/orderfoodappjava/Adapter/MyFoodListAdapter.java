@@ -51,11 +51,11 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
         .append(foodModelList.get(position).getName()));
 
         //Event
-//        holder.setListener((IRecyclerClickListener) (view, pos) -> {
-//            Common.selectedFood = foodModelList.get(pos);
-//            EventBus.getDefault().postSticky(new FoodItemClick(true, foodModelList.get(pos)));
-//
-//        });
+        holder.setListener((IRecyclerClickListener) (view, pos) -> {
+            Common.selectedFood = foodModelList.get(pos);
+            EventBus.getDefault().postSticky(new FoodItemClick(true, foodModelList.get(pos)));
+
+        });
     }
 
     @Override
@@ -78,6 +78,10 @@ public class MyFoodListAdapter extends RecyclerView.Adapter<MyFoodListAdapter.My
         ImageView img_cart;
 
         IRecyclerClickListener listener;
+
+        public void setListener(IRecyclerClickListener listener) {
+            this.listener = listener;
+        }
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
