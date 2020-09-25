@@ -4,16 +4,20 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.ganarstudio.orderfoodappjava.Common.Common;
+import com.ganarstudio.orderfoodappjava.Model.FoodModel;
+
 public class FoodDetailViewModel extends ViewModel {
 
-    private MutableLiveData<String> mText;
+    private MutableLiveData<FoodModel> mutableLiveDataFood;
 
     public FoodDetailViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is slideshow fragment");
     }
 
-    public LiveData<String> getText() {
-        return mText;
+    public MutableLiveData<FoodModel> getMutableLiveDataFood() {
+        if (mutableLiveDataFood == null)
+            mutableLiveDataFood = new MutableLiveData<>();
+        mutableLiveDataFood.setValue(Common.selectedFood);
+        return mutableLiveDataFood;
     }
 }

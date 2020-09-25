@@ -9,17 +9,18 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.andremion.counterfab.CounterFab;
+import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class FoodDetailFragment extends Fragment {
@@ -51,13 +52,18 @@ public class FoodDetailFragment extends Fragment {
         slideshowViewModel =
                 ViewModelProviders.of(this).get(FoodDetailViewModel.class);
         View root = inflater.inflate(R.layout.fragment_food_detail, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
+        unbinder = ButterKnife.bind(this, root);
+        slideshowViewModel.getMutableLiveDataFood().observe(this, foodModel -> {
+            displayInfo(foodModel);
         });
         return root;
+    }
+
+    private void displayInfo(FoodModel foodModel) {
+        Glide.with(getContext()).load(foodModel.getImage()).into(img_food);
+        food_name.setText(new StringBuilder(foodModel.getName()));
+        food_description.setText(new StringBuilder(foodModel.getDescription()));
+        food_price.setText(new StringBuilder(foodModel.getPrice().toString()));
+
     }
 }
