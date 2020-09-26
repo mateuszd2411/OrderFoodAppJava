@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
+import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -38,8 +40,8 @@ public class FoodDetailFragment extends Fragment {
     TextView food_name;
     @BindView(R.id.food_description)
     TextView food_description;
-    @BindView(R.id.txt_food_price)
-    TextView food_price;
+    //@BindView(R.id.txt_food_price)
+    //TextView food_price;
     @BindView(R.id.number_button)
     ElegantNumberButton numberButton;
     @BindView(R.id.ratingBar)
@@ -63,7 +65,10 @@ public class FoodDetailFragment extends Fragment {
         Glide.with(getContext()).load(foodModel.getImage()).into(img_food);
         food_name.setText(new StringBuilder(foodModel.getName()));
         food_description.setText(new StringBuilder(foodModel.getDescription()));
-        food_price.setText(new StringBuilder(foodModel.getPrice().toString()));
+        //food_price.setText(new StringBuilder(foodModel.getPrice().toString()));
 
+        ((AppCompatActivity)getActivity())
+                .getSupportActionBar()
+                .setTitle(Common.selectedFood.getName());
     }
 }
