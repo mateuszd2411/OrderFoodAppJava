@@ -1,14 +1,17 @@
 package com.ganarstudio.orderfoodappjava.ui.fooddetail;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -23,6 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class FoodDetailFragment extends Fragment {
@@ -48,6 +52,35 @@ public class FoodDetailFragment extends Fragment {
     RatingBar ratingBar;
     @BindView(R.id.btnShowComment)
     Button btnShowComment;
+
+    @OnClick(R.id.btn_rating)
+    void onRatingButtonClick() {
+        showDialogRating();
+    }
+
+    private void showDialogRating() {
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getContext());
+        builder.setTitle("Rating Food");
+        builder.setMessage("Please fill information");
+
+        View itemView = LayoutInflater.from(getContext()).inflate(R.layout.layout_rating, null);
+
+        RatingBar ratingBar = (RatingBar) itemView.findViewById(R.id.rating_bar);
+        EditText edit_comment = (EditText) itemView.findViewById(R.id.edit_comment);
+
+        builder.setView(itemView);
+
+        builder.setNegativeButton("CANCEL", (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+
+        builder.setPositiveButton("OK", (dialogInterface, i) -> {
+
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
