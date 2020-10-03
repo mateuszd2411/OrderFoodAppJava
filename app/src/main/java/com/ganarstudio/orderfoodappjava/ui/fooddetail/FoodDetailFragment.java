@@ -20,9 +20,14 @@ import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.ganarstudio.orderfoodappjava.Common.Common;
+import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ServerValue;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -75,7 +80,15 @@ public class FoodDetailFragment extends Fragment {
         });
 
         builder.setPositiveButton("OK", (dialogInterface, i) -> {
+            CommentModel commentModel = new CommentModel();
+            commentModel.setName(Common.currentUser.getName());
+            commentModel.setUid(Common.currentUser.getUid());
+            commentModel.setComment(edit_comment.getText().toString());
+            commentModel.setRatingValue(ratingBar.getRating());
 
+            Map<String, Object> serverTimeStamp = new HashMap<>();
+            serverTimeStamp.put("timeStamp", ServerValue.TIMESTAMP);
+            commentModel.setCommentTimeStamp(serverTimeStamp);
         });
 
         AlertDialog dialog = builder.create();
