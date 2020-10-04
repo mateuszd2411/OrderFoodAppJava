@@ -23,7 +23,10 @@ import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 
 import java.util.HashMap;
@@ -36,7 +39,8 @@ import butterknife.Unbinder;
 
 public class FoodDetailFragment extends Fragment {
 
-    private FoodDetailViewModel slideshowViewModel;
+    private FoodDetailViewModel foodDetailViewModel;
+    private android.app.AlertDialog waitingDialog;
 
     private Unbinder unbinder;
     @BindView(R.id.img_food)
@@ -89,6 +93,8 @@ public class FoodDetailFragment extends Fragment {
             Map<String, Object> serverTimeStamp = new HashMap<>();
             serverTimeStamp.put("timeStamp", ServerValue.TIMESTAMP);
             commentModel.setCommentTimeStamp(serverTimeStamp);
+
+            foodDetailViewModel.setCommentModel(commentModel);
         });
 
         AlertDialog dialog = builder.create();
@@ -97,14 +103,33 @@ public class FoodDetailFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
             ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
+        foodDetailViewModel =
                 ViewModelProviders.of(this).get(FoodDetailViewModel.class);
         View root = inflater.inflate(R.layout.fragment_food_detail, container, false);
         unbinder = ButterKnife.bind(this, root);
-        slideshowViewModel.getMutableLiveDataFood().observe(this, foodModel -> {
+        foodDetailViewModel.getMutableLiveDataFood().observe(this, foodModel -> {
             displayInfo(foodModel);
         });
+        foodDetailViewModel.getMutableLiveDataComment().observe(this, commentModel ->{
+            submitRatingToFirebase(commentModel);
+        });
         return root;
+    }
+
+    private void submitRatingToFirebase(CommentModel commentModel) {
+        FirebaseDatabase.getInstance()
+                .getReference(Common.COMMENT_REF)
+                .child(Common.selectedFood.getId())
+                .push()
+                .setValue(commentModel)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+
+                        }
+                    }
+                });
     }
 
     private void displayInfo(FoodModel foodModel) {
