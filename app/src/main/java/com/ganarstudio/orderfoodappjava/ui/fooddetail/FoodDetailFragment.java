@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +28,11 @@ import com.ganarstudio.orderfoodappjava.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import dmax.dialog.SpotsDialog;
 
 public class FoodDetailFragment extends Fragment {
 
@@ -107,6 +113,7 @@ public class FoodDetailFragment extends Fragment {
                 ViewModelProviders.of(this).get(FoodDetailViewModel.class);
         View root = inflater.inflate(R.layout.fragment_food_detail, container, false);
         unbinder = ButterKnife.bind(this, root);
+        initViews();
         foodDetailViewModel.getMutableLiveDataFood().observe(this, foodModel -> {
             displayInfo(foodModel);
         });
@@ -116,7 +123,12 @@ public class FoodDetailFragment extends Fragment {
         return root;
     }
 
+    private void initViews() {
+        waitingDialog = new SpotsDialog.Builder().setCancelable(false).setContext(getContext()).build();
+    }
+
     private void submitRatingToFirebase(CommentModel commentModel) {
+        waitingDialog.show();
         FirebaseDatabase.getInstance()
                 .getReference(Common.COMMENT_REF)
                 .child(Common.selectedFood.getId())
@@ -126,8 +138,33 @@ public class FoodDetailFragment extends Fragment {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-
+                            addRatingToFood(commentModel.getRatingValue());
                         }
+                        waitingDialog.dismiss();
+                    }
+                });
+    }
+
+    private void addRatingToFood(float ratingValue) {
+        FirebaseDatabase.getInstance()
+                .getReference(Common.CATEGORY_REF)
+                .child(Common.categorySelected.getMenu_id())//Select category
+                .child("foods")//Select array list 'foods' of this category
+                .child(Common.selectedFood.getKey())//Because food item is array list so key is index of arraylist
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+
+                        } else {
+                            waitingDialog.dismiss();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        waitingDialog.dismiss();
+                        Toast.makeText(getContext(), ""+error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

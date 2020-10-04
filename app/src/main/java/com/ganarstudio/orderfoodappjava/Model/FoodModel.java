@@ -3,12 +3,23 @@ package com.ganarstudio.orderfoodappjava.Model;
 import java.util.List;
 
 public class FoodModel {
-    private String name,image,id, description;
+    private String key;
+    private String name, image, id, description;
     private Long price;
     private List<AddonModel> addonModels;
     private List<SizeModel> size;
+    private Double ratingValue;
+    private Long ratingCount;
 
     public FoodModel() {
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getName() {
@@ -65,5 +76,21 @@ public class FoodModel {
 
     public void setSize(List<SizeModel> size) {
         this.size = size;
+    }
+
+    public Double getRatingValue() {
+        return ratingValue;
+    }
+
+    public void setRatingValue(Double ratingValue) {
+        this.ratingValue = ratingValue;
+    }
+
+    public Long getRatingCount() {
+        return ratingCount;
+    }
+
+    public void setRatingCount(Long ratingCount) {
+        this.ratingCount = ratingCount;
     }
 }
