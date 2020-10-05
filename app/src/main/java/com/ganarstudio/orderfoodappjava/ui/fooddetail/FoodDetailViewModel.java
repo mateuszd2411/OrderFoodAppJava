@@ -32,4 +32,9 @@ public class FoodDetailViewModel extends ViewModel {
         mutableLiveDataFood.setValue(Common.selectedFood);
         return mutableLiveDataFood;
     }
+
+    public void setFoodModel(FoodModel foodModel) {
+        if (mutableLiveDataFood != null)
+            mutableLiveDataFood.setValue(foodModel);
+    }
 }

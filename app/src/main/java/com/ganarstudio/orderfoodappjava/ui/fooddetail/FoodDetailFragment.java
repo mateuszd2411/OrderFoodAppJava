@@ -155,7 +155,36 @@ public class FoodDetailFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
+                            FoodModel foodModel = dataSnapshot.getValue(FoodModel.class);
+                            foodModel.setKey(Common.selectedFood.getKey());
 
+                            //Apply rating
+                            if (foodModel.getRatingValue() == null)
+                                foodModel.setRatingValue(0d);
+                            if (foodModel.getRatingCount() == null)
+                                foodModel.setRatingCount(0l);
+                            double sumRating = foodModel.getRatingValue() + ratingValue;
+                            long ratingCount = foodModel.getRatingCount() + 1;
+                            double result = sumRating / ratingCount;
+
+                            Map<String, Object> updateData = new HashMap<>();
+                            updateData.put("ratingValue", result);
+                            updateData.put("ratingCount", ratingCount);
+
+                            //update data in variable
+                            foodModel.setRatingValue(result);
+                            foodModel.setRatingCount(ratingCount);
+
+                            dataSnapshot.getRef()
+                                    .updateChildren(updateData)
+                                    .addOnCompleteListener(task -> {
+                                        waitingDialog.dismiss();
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "Thank you!", Toast.LENGTH_SHORT).show();
+                                            Common.selectedFood = foodModel;
+                                            foodDetailViewModel.setFoodModel(foodModel);    //call refresh
+                                        }
+                                    });
                         } else {
                             waitingDialog.dismiss();
                         }
@@ -174,6 +203,9 @@ public class FoodDetailFragment extends Fragment {
         food_name.setText(new StringBuilder(foodModel.getName()));
         food_description.setText(new StringBuilder(foodModel.getDescription()));
         //food_price.setText(new StringBuilder(foodModel.getPrice().toString()));
+
+        if (foodModel.getRatingValue() != null)
+            ratingBar.setRating(foodModel.getRatingCount().floatValue());
 
         ((AppCompatActivity)getActivity())
                 .getSupportActionBar()
