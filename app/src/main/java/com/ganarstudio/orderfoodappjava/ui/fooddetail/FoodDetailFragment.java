@@ -25,6 +25,7 @@ import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.R;
+import com.ganarstudio.orderfoodappjava.ui.comments.CommentFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,6 +72,12 @@ public class FoodDetailFragment extends Fragment {
     @OnClick(R.id.btn_rating)
     void onRatingButtonClick() {
         showDialogRating();
+    }
+
+    @OnClick(R.id.btnShowComment)
+    void onShowCommentButtonCLick() {
+        CommentFragment commentFragment = CommentFragment.getInstance();
+        commentFragment.show(getActivity().getSupportFragmentManager(), "CommentFragment");
     }
 
     private void showDialogRating() {

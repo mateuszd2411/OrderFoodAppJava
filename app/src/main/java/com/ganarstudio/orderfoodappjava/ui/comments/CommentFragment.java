@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.ganarstudio.orderfoodappjava.Adapter.MyCommentAdapter;
 import com.ganarstudio.orderfoodappjava.Callback.ICommentCallbackListener;
 import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
@@ -67,7 +68,8 @@ public class CommentFragment extends BottomSheetDialogFragment implements IComme
         initViews();
         loadCommentsFromFirebase();
         commentViewModel.getMutableLiveDataFoodList().observe(this, commentModels -> {
-
+            MyCommentAdapter adapter = new MyCommentAdapter(getContext(), commentModels);
+            recycler_comment.setAdapter(adapter);
         });
         return itemView;
     }
@@ -108,6 +110,7 @@ public class CommentFragment extends BottomSheetDialogFragment implements IComme
 
     @Override
     public void onCommentLoadSuccess(List<CommentModel> commentModels) {
+        dialog.dismiss();
         commentViewModel.setCommentList(commentModels);
     }
 
