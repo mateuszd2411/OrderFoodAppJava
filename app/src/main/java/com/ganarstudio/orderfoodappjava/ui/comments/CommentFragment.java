@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -65,7 +66,10 @@ public class CommentFragment extends BottomSheetDialogFragment implements IComme
         unbinder = ButterKnife.bind(this, itemView);
         initViews();
         loadCommentsFromFirebase();
-        return super.onCreateView(inflater, container, savedInstanceState);
+        commentViewModel.getMutableLiveDataFoodList().observe(this, commentModels -> {
+
+        });
+        return itemView;
     }
 
     private void loadCommentsFromFirebase() {
