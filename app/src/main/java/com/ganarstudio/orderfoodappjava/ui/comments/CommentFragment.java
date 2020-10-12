@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,10 +15,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ganarstudio.orderfoodappjava.Callback.ICommentCallbackListener;
+import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,8 +64,32 @@ public class CommentFragment extends BottomSheetDialogFragment implements IComme
                 .inflate(R.layout.bottom_sheet_fragment, container, false);
         unbinder = ButterKnife.bind(this, itemView);
         initViews();
-
+        loadCommentsFromFirebase();
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    private void loadCommentsFromFirebase() {
+        dialog.show();
+        List<CommentModel> commentModels = new ArrayList<>();
+        FirebaseDatabase.getInstance().getReference(Common.COMMENT_REF)
+                .child(Common.selectedFood.getId())
+                .orderByChild("serverTimeStamp")
+                .limitToLast(100)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot commentSnapshot : snapshot.getChildren()) {
+                            CommentModel commentModel = commentSnapshot.getValue(CommentModel.class);
+                            commentModels.add(commentModel);
+                        }
+                        listener.onCommentLoadSuccess(commentModels);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        listener.onCommentLoadFiled(error.getMessage());
+                    }
+                });
     }
 
     private void initViews() {
@@ -73,11 +104,11 @@ public class CommentFragment extends BottomSheetDialogFragment implements IComme
 
     @Override
     public void onCommentLoadSuccess(List<CommentModel> commentModels) {
-
+        commentViewModel.setCommentList(commentModels);
     }
 
     @Override
     public void onCommentLoadFiled(String message) {
-
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }
