@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +27,7 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.ganarstudio.orderfoodappjava.Common.Common;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
+import com.ganarstudio.orderfoodappjava.Model.SizeModel;
 import com.ganarstudio.orderfoodappjava.R;
 import com.ganarstudio.orderfoodappjava.ui.comments.CommentFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,6 +72,8 @@ public class FoodDetailFragment extends Fragment {
     RatingBar ratingBar;
     @BindView(R.id.btnShowComment)
     Button btnShowComment;
+    @BindView(R.id.rdi_group_size)
+    RadioGroup rdi_group_size;
 
     @OnClick(R.id.btn_rating)
     void onRatingButtonClick() {
@@ -217,5 +223,14 @@ public class FoodDetailFragment extends Fragment {
         ((AppCompatActivity)getActivity())
                 .getSupportActionBar()
                 .setTitle(Common.selectedFood.getName());
+
+        //Size
+        for (SizeModel sizeModel : Common.selectedFood.getSize()) {
+            RadioButton radioButton = new RadioButton(getContext());
+            radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
+                if (b)
+                    Common.selectedFood.setUserSelectedSize(sizeModel);
+            });
+        }
     }
 }
