@@ -128,10 +128,10 @@ public class FoodDetailFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_food_detail, container, false);
         unbinder = ButterKnife.bind(this, root);
         initViews();
-        foodDetailViewModel.getMutableLiveDataFood().observe(this, foodModel -> {
+        foodDetailViewModel.getMutableLiveDataFood().observe(getViewLifecycleOwner(), foodModel -> {
             displayInfo(foodModel);
         });
-        foodDetailViewModel.getMutableLiveDataComment().observe(this, commentModel ->{
+        foodDetailViewModel.getMutableLiveDataComment().observe(getViewLifecycleOwner(), commentModel ->{
             submitRatingToFirebase(commentModel);
         });
         return root;
