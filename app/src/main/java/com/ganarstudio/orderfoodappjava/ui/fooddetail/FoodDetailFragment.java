@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RatingBar;
@@ -64,8 +65,8 @@ public class FoodDetailFragment extends Fragment {
     TextView food_name;
     @BindView(R.id.food_description)
     TextView food_description;
-    //@BindView(R.id.txt_food_price)
-    //TextView food_price;
+    @BindView(R.id.txt_food_price)
+    TextView food_price;
     @BindView(R.id.number_button)
     ElegantNumberButton numberButton;
     @BindView(R.id.ratingBar)
@@ -230,7 +231,32 @@ public class FoodDetailFragment extends Fragment {
             radioButton.setOnCheckedChangeListener((compoundButton, b) -> {
                 if (b)
                     Common.selectedFood.setUserSelectedSize(sizeModel);
+                calculateTotalPrice();     //Update price
             });
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1.0f);
+            radioButton.setLayoutParams(params);
+            radioButton.setText(sizeModel.getName());
+            radioButton.setTag(sizeModel.getPrice());
+
+            rdi_group_size.addView(radioButton);
         }
+
+        if (rdi_group_size.getChildCount() > 0) {
+            RadioButton radioButton = (RadioButton) rdi_group_size.getChildAt(0);
+            radioButton.setChecked(true); //default first select
+        }
+        calculateTotalPrice();
+    }
+
+    private void calculateTotalPrice() {
+        double totalPrice = Double.parseDouble(Common.selectedFood.getPrice().toString()), displayPrice = 0.0;
+        //Size
+        totalPrice += Double.parseDouble(Common.selectedFood.getUserSelectedSize().getPrice().toString());
+
+        displayPrice = totalPrice * (Integer.parseInt(numberButton.getNumber()));
+        displayPrice = Math.round(displayPrice * 100.0 / 100.0);
+
+        food_price.setText(new StringBuilder("").append(Common.formatPrice(displayPrice)).toString());
     }
 }
