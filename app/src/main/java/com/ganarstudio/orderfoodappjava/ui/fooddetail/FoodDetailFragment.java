@@ -33,6 +33,8 @@ import com.ganarstudio.orderfoodappjava.R;
 import com.ganarstudio.orderfoodappjava.ui.comments.CommentFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +55,7 @@ public class FoodDetailFragment extends Fragment {
 
     private FoodDetailViewModel foodDetailViewModel;
     private android.app.AlertDialog waitingDialog;
+    private BottomSheetDialog addonBottomSheetDialog;
 
     private Unbinder unbinder;
     @BindView(R.id.img_food)
@@ -75,6 +78,10 @@ public class FoodDetailFragment extends Fragment {
     Button btnShowComment;
     @BindView(R.id.rdi_group_size)
     RadioGroup rdi_group_size;
+    @BindView(R.id.img_add_addon)
+    ImageView img_add_on;
+    @BindView(R.id.chip_group_user_selected_addon)
+    ChipGroup chip_group_user_selected_addon;
 
     @OnClick(R.id.btn_rating)
     void onRatingButtonClick() {
@@ -139,6 +146,8 @@ public class FoodDetailFragment extends Fragment {
 
     private void initViews() {
         waitingDialog = new SpotsDialog.Builder().setCancelable(false).setContext(getContext()).build();
+
+        addonBottomSheetDialog = new BottomSheetDialog(getContext(), R.style.DialogStyle);
     }
 
     private void submitRatingToFirebase(CommentModel commentModel) {
