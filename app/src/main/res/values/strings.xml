@@ -21,4 +21,5 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="size">Size</string>
+    <string name="add_on">Addon</string>
 </resources>
