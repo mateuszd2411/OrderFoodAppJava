@@ -53,11 +53,15 @@ import dmax.dialog.SpotsDialog;
 
 public class FoodDetailFragment extends Fragment {
 
-    private FoodDetailViewModel foodDetailViewModel;
+    private Unbinder unbinder;
     private android.app.AlertDialog waitingDialog;
+    private FoodDetailViewModel foodDetailViewModel;
     private BottomSheetDialog addonBottomSheetDialog;
 
-    private Unbinder unbinder;
+    //View need inflate
+    ChipGroup chip_group_addon;
+    EditText edt_search;
+
     @BindView(R.id.img_food)
     ImageView img_food;
     @BindView(R.id.btnCart)
@@ -149,6 +153,13 @@ public class FoodDetailFragment extends Fragment {
 
         addonBottomSheetDialog = new BottomSheetDialog(getContext(), R.style.DialogStyle);
         View layout_addon_display = getLayoutInflater().inflate(R.layout.layout_layout_addon_display, null);
+        chip_group_addon = (ChipGroup) layout_addon_display.findViewById(R.id.chip_group_addon);
+        edt_search = (EditText) layout_addon_display.findViewById(R.id.edt_search);
+        addonBottomSheetDialog.setContentView(layout_addon_display);
+
+        addonBottomSheetDialog.setOnDismissListener(dialogInterface -> {
+            calculateTotalPrice();
+        });
     }
 
     private void submitRatingToFirebase(CommentModel commentModel) {
