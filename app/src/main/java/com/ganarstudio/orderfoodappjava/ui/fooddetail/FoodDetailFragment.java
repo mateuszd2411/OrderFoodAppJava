@@ -148,6 +148,7 @@ public class FoodDetailFragment extends Fragment {
         waitingDialog = new SpotsDialog.Builder().setCancelable(false).setContext(getContext()).build();
 
         addonBottomSheetDialog = new BottomSheetDialog(getContext(), R.style.DialogStyle);
+        View layout_addon_display = getLayoutInflater().inflate(R.layout.layout_layout_addon_display, null);
     }
 
     private void submitRatingToFirebase(CommentModel commentModel) {
