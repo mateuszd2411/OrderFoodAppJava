@@ -26,6 +26,7 @@ import com.andremion.counterfab.CounterFab;
 import com.bumptech.glide.Glide;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.ganarstudio.orderfoodappjava.Common.Common;
+import com.ganarstudio.orderfoodappjava.Model.AddonModel;
 import com.ganarstudio.orderfoodappjava.Model.CommentModel;
 import com.ganarstudio.orderfoodappjava.Model.FoodModel;
 import com.ganarstudio.orderfoodappjava.Model.SizeModel;
@@ -34,6 +35,7 @@ import com.ganarstudio.orderfoodappjava.ui.comments.CommentFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
@@ -158,8 +160,30 @@ public class FoodDetailFragment extends Fragment {
         addonBottomSheetDialog.setContentView(layout_addon_display);
 
         addonBottomSheetDialog.setOnDismissListener(dialogInterface -> {
+            displayUserSelectedAddon();
             calculateTotalPrice();
         });
+    }
+
+    private void displayUserSelectedAddon() {
+        if (Common.selectedFood.getUserSelectedAddon() != null &&
+                Common.selectedFood.getUserSelectedAddon().size() > 0) {
+            chip_group_user_selected_addon.removeAllViews();//Clear all view already added
+            for (AddonModel addonModel : Common.selectedFood.getUserSelectedAddon()) {  //Add all available addon to list
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.layout_chip_with_delete_icon, null);
+                chip.setText(new StringBuilder(addonModel.getName()).append("+$")
+                        .append(addonModel.getPrice()).append(")"));
+                chip.setClickable(false);
+                chip.setOnCloseIconClickListener(view -> {
+                    //Remove when user select delete
+                    chip_group_user_selected_addon.removeView(view);
+                    Common.selectedFood.getUserSelectedAddon().remove(addonModel);
+                    calculateTotalPrice();
+                });
+                chip_group_user_selected_addon.addView(chip);
+            }
+        }else if (Common.selectedFood.getUserSelectedAddon().size() == 00)
+            chip_group_user_selected_addon.removeAllViews();
     }
 
     private void submitRatingToFirebase(CommentModel commentModel) {
