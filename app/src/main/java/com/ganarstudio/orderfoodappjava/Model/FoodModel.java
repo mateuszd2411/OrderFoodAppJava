@@ -66,7 +66,7 @@ public class FoodModel {
         this.price = price;
     }
 
-    public List<AddonModel> getAddonModels() {
+    public List<AddonModel> getAddon() {
         return addonModels;
     }
 

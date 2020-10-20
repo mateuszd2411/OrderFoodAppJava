@@ -1,12 +1,12 @@
 package com.ganarstudio.orderfoodappjava.ui.fooddetail;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +53,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import dmax.dialog.SpotsDialog;
 
-public class FoodDetailFragment extends Fragment {
+public class FoodDetailFragment extends Fragment implements TextWatcher {
 
     private Unbinder unbinder;
     private android.app.AlertDialog waitingDialog;
@@ -88,6 +88,23 @@ public class FoodDetailFragment extends Fragment {
     ImageView img_add_on;
     @BindView(R.id.chip_group_user_selected_addon)
     ChipGroup chip_group_user_selected_addon;
+
+    @OnClick(R.id.img_add_addon)
+    void onAddonClick() {
+        if (Common.selectedFood.getAddon() != null) {
+            displayAddonList();//Show all addon options
+            addonBottomSheetDialog.show();
+        }
+    }
+
+    private void displayAddonList() {
+        if (Common.selectedFood.getAddon().size() > 0) {
+            chip_group_addon.clearCheck();// Clear check all views
+            chip_group_addon.removeAllViews();
+
+            edt_search.addTextChangedListener(this);
+        }
+    }
 
     @OnClick(R.id.btn_rating)
     void onRatingButtonClick() {
@@ -303,5 +320,27 @@ public class FoodDetailFragment extends Fragment {
         displayPrice = Math.round(displayPrice * 100.0 / 100.0);
 
         food_price.setText(new StringBuilder("").append(Common.formatPrice(displayPrice)).toString());
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        //nothing
+    }
+
+    @Override
+    public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        chip_group_addon.clearCheck();
+        chip_group_addon.removeAllViews();
+
+        for (AddonModel addonModel : Common.selectedFood.getAddon()) {
+            if (addonModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+
+            }
+        }
+    }
+
+    @Override
+    public void afterTextChanged(Editable editable) {
+        //nothing
     }
 }
