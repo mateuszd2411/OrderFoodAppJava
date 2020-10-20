@@ -44,6 +44,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -103,6 +104,23 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
             chip_group_addon.removeAllViews();
 
             edt_search.addTextChangedListener(this);
+
+            //Add all view
+            for (AddonModel addonModel : Common.selectedFood.getAddon()) {
+                if (addonModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+                    Chip chip = (Chip) getLayoutInflater().inflate(R.layout.layout_addon_item, null);
+                    chip.setText(new StringBuilder(addonModel.getName()).append("(+$")
+                            .append(addonModel.getPrice()).append(")"));
+                    chip.setOnCheckedChangeListener(((compoundButton, b) -> {
+                        if (b) {
+                            if (Common.selectedFood.getUserSelectedAddon() == null)
+                                Common.selectedFood.setUserSelectedAddon(new ArrayList<>());
+                            Common.selectedFood.getUserSelectedAddon().add(addonModel);
+                        }
+                    }));
+                    chip_group_addon.addView(chip);
+                }
+            }
         }
     }
 
@@ -334,7 +352,17 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
         for (AddonModel addonModel : Common.selectedFood.getAddon()) {
             if (addonModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
-
+                Chip chip = (Chip) getLayoutInflater().inflate(R.layout.layout_addon_item, null);
+                chip.setText(new StringBuilder(addonModel.getName()).append("(+$")
+                .append(addonModel.getPrice()).append(")"));
+                chip.setOnCheckedChangeListener(((compoundButton, b) -> {
+                    if (b) {
+                        if (Common.selectedFood.getUserSelectedAddon() == null)
+                            Common.selectedFood.setUserSelectedAddon(new ArrayList<>());
+                        Common.selectedFood.getUserSelectedAddon().add(addonModel);
+                    }
+                }));
+                chip_group_addon.addView(chip);
             }
         }
     }
