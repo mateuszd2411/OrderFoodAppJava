@@ -107,7 +107,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
             //Add all view
             for (AddonModel addonModel : Common.selectedFood.getAddon()) {
-                if (addonModel.getName().toLowerCase().contains(charSequence.toString().toLowerCase())) {
+
                     Chip chip = (Chip) getLayoutInflater().inflate(R.layout.layout_addon_item, null);
                     chip.setText(new StringBuilder(addonModel.getName()).append("(+$")
                             .append(addonModel.getPrice()).append(")"));
@@ -119,7 +119,7 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
                         }
                     }));
                     chip_group_addon.addView(chip);
-                }
+
             }
         }
     }
@@ -331,6 +331,13 @@ public class FoodDetailFragment extends Fragment implements TextWatcher {
 
     private void calculateTotalPrice() {
         double totalPrice = Double.parseDouble(Common.selectedFood.getPrice().toString()), displayPrice = 0.0;
+
+        //Addon
+        if (Common.selectedFood.getUserSelectedAddon() != null && Common.selectedFood.getUserSelectedAddon().size() > 0) {
+            for (AddonModel addonModel : Common.selectedFood.getUserSelectedAddon())
+                totalPrice += Double.parseDouble(addonModel.getPrice().toString());
+        }
+
         //Size
         totalPrice += Double.parseDouble(Common.selectedFood.getUserSelectedSize().getPrice().toString());
 
