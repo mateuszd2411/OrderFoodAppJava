@@ -1,5 +1,6 @@
 package com.ganarstudio.orderfoodappjava.Database;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
@@ -12,17 +13,18 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 
+@Dao
 public interface CartDAO {
-    @Query("SELECT * FROM Cart WHERE uid=uid")
+    @Query("SELECT * FROM Cart WHERE uid=:uid")
     Flowable<List<CartItem>> getAllCart(String uid);
 
-    @Query("SELECT COUNT(*) FROM Cart WHERE uid=uid")
+    @Query("SELECT COUNT(*) FROM Cart WHERE uid=:uid")
     Single<Integer> countItemInCart(String uid);
 
-    @Query("SELECT SUM(foodPrice*foodQuantity) + (foodPrice*foodQuantity) From Cart WHERE uid = uid")
+    @Query("SELECT SUM(foodPrice*foodQuantity) + (foodExtraPrice*foodQuantity) FROM Cart WHERE uid =:uid")
     Single<Long> sumPriceInCart(String uid);
 
-    @Query("SELECT * FROM Cart WHERE foodId = foodId AND uid = uid")
+    @Query("SELECT * FROM Cart WHERE foodId =:foodId AND uid =:uid")
     Single<CartItem> getItemCart(String foodId, String uid);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
